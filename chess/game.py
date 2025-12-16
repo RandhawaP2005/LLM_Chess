@@ -26,6 +26,7 @@ class Game:
     def save_pgn(self):
         loc = Path("../pgn")
         loc.mkdir(parents=True, exist_ok=True)
-
-        with open("../pgn/first.pgn", "w", encoding= 'utf-8') as f:
+        pgn_name = str(input("Enter name for PGN file: ")) + ".pgn"
+        with open("../pgn/" + pgn_name, "w", encoding= 'utf-8') as f:
             f.write(self.get_pgn())
+        print("PGN: " + pgn_name + " was saved successfully!")
