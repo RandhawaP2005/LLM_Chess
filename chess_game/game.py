@@ -16,16 +16,22 @@ def is_fen(fen:str) -> bool:
 
 # Game class housing board
 class Game:
-    def __init__(self, position: str | None = None):
+    def __init__(self, format = None, position: str | None = None):
         self.game_over = False
 
-        if position is None:
+        if position is not None and format is None:
+            raise ValueError("Format must be specified")
+
+        if position is None and format is not None:
+            raise ValueError("Position must be specified")
+
+        if position is None and format is None:
             self.board = chess.Board()
             self.game = chess.pgn.Game.from_board(self.board)
             self.game_node = self.game
             return
 
-        if is_fen(position):
+        if is_fen(position) and format == "FEN":
             self.board = chess.Board(position)
             self.game = chess.pgn.Game.from_board(self.board)
             self.game_node = self.game
@@ -33,7 +39,7 @@ class Game:
             return
 
         game = chess.pgn.read_game(io.StringIO(position))
-        if game:
+        if game and format == "PGN":
             self.game = game
             self.game_node = game
             self.board = game.board()
@@ -51,6 +57,14 @@ class Game:
             return True
         else:
             return False
+
+    def get_moves(self):
+        moves = self.board.legal_moves
+        return [str(chess.Move.uci(move)) for move in moves]
+
+    def get_moves_history(self):
+        moves = self.board.move_stack
+        return [str(chess.Move.uci(move)) for move in moves]
 
     def make_move(self, move):
         if self.game_over:
@@ -118,6 +132,9 @@ class Game:
             return "Game is still in progress"
         else:
             return f"Draw: {self.draw_reason}"
+
+    def game_ended(self):
+        return self.board.result() != "*" and self.game_over
 
     def save_pgn(self):
         white = self.game.headers.get("White")
