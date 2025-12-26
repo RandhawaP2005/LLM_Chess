@@ -114,7 +114,7 @@ class Game:
             return "White wins"
         elif result == "0-1":
             return "Black wins"
-        elif result == "*":
+        elif result == "*" and self.game_over != True:
             return "Game is still in progress"
         else:
             return f"Draw: {self.draw_reason}"
