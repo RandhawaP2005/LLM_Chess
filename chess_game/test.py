@@ -62,6 +62,7 @@ class TestChess(unittest.TestCase):
         game.make_move("e2d1")
         game.make_move("e7d8")
 
+        print(game.get_moves_history())
         self.assertTrue(game.board.is_repetition())
         self.assertTrue(game.game_over)
         self.assertEqual(game.game_result(), "Draw: Threefold Repetition")
@@ -140,3 +141,10 @@ class TestChess(unittest.TestCase):
         # Wrong color: black tries to move first
         with self.assertRaises(ValueError):
             game.make_move("e7e5")
+
+    def test_live_game_test(self):
+        game = Game()
+
+        print(game.get_moves())
+        print(game.get_moves_history())
+        self.assertFalse(game.board.is_game_over())

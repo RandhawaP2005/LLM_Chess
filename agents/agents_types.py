@@ -5,5 +5,7 @@ class MoveRequest:
     fen: str
     legal_move_list: list[str]
     move_history: list[str]
+    alliance: str
+    game_board: str
 
 

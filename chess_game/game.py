@@ -70,12 +70,14 @@ class Game:
         if self.game_over:
             raise ValueError("Game is already over.")
         else:
-            move = chess.Move.from_uci(move)
+            if type(move) is not chess.Move:
+                move = chess.Move.from_uci(move)
             if self.check_legal(move):
                 self.game_node = self.game_node.add_main_variation(move)
                 self.board.push(move)
                 status = self.check_status()
                 if status:
+                    self.game_over = True
                     print(f"Game over. {status}")
             else:
                 raise ValueError(f"Illegal move: {move}")
@@ -134,7 +136,7 @@ class Game:
             return f"Draw: {self.draw_reason}"
 
     def game_ended(self):
-        return self.board.result() != "*" and self.game_over
+        return self.game_over == True
 
     def save_pgn(self):
         white = self.game.headers.get("White")
@@ -155,12 +157,12 @@ class Game:
 
         base_name = f"{today}_{sanitized_white}_vs_{sanitized_black}"
         filename = f"{base_name}.pgn"
-        path = f"../pgn/{filename}"
+        path = f"/pgn/{filename}"
 
         counter = 1
         while os.path.exists(path):
             filename = f"{base_name}_{counter}.pgn"
-            path = f"../pgn/{filename}"
+            path = f"/pgn/{filename}"
             counter += 1
 
         try:

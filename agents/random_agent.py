@@ -1,9 +1,8 @@
 import random
 
-from base import BaseAgent
-from types import MoveRequest
+from agents.agents_types import MoveRequest
 
-class RandomAgent(BaseAgent):
+class RandomAgent:
     name = "Random"
 
     def choose_move(self, req: MoveRequest):

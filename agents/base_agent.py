@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from types import MoveRequest
+from agents.agents_types import MoveRequest
 
 class BaseAgent(ABC):
     name: str = "BaseAgent"

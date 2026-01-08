@@ -1,7 +1,7 @@
-from base import BaseAgent
-from types import MoveRequest
+from base_agent import BaseAgent
+from agents.agents_types import MoveRequest
 
-class FirstMoveAgent(BaseAgent):
+class FirstMoveAgent:
     name = "First Move"
 
     def choose_move(self, req: MoveRequest):
